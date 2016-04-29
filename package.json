@@ -1,0 +1,23 @@
+{
+  "name": "homebridge-tinkerforge",
+  "version": "0.0.1",
+  "description": "Tinkerforge plugin for homebridge: https://github.com/nfarina/homebridge",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JonathanH5/homebridge-tinkerforge"
+  },
+  "bugs": {
+    "url": "https://github.com/JonathanH5/homebridge-tinkerforge/issues"
+  },
+  "dependencies": {
+      "tinkerforge": ">=2.0.8"
+  },
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  }
+}
