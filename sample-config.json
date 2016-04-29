@@ -6,14 +6,16 @@
         "pin": "031-45-157"
     },
 
-    "description": "HomeBridge HTTP Status Control",
+    "description": "HomeBridge Tinkerforge Plugin",
 
     "accessories": [ {
-	        "accessory": "Tinkerforge",
-			"bricklet_type": "BrickletRemoteSwitch",
+	        "accessory": "BrickletRemoteSwitch",
+            "uid": "nXN",
             "name": "Schreibtischlampe",
             "address": 30,
-            "unit": 3
+            "unit": 3,
+            "host": "192.168.0.248",
+            "port": 4223
        }
     ]
 }

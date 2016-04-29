@@ -4,43 +4,42 @@ var Tinkerforge = require("tinkerforge");
 module.exports = function(homebridge){
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("homebridge-tinkerforge", "Tinkerforge", TinkerforgeAccessory);
+    homebridge.registerAccessory("homebridge-tinkerforge", "BrickletRemoteSwitch", BrickletRemoteSwitch);
 }
 
-function TinkerforgeAccessory(log, config) {
+function BrickletRemoteSwitch(log, config) {
   this.log = log;
 
   // parse config
-  this.bricklet_type = config["bricklet_type"];
   this.name = config["name"];
+  this.uid = config["uid"];
   this.address = config["address"];
   this.unit = config["unit"];
-
-  var HOST = '192.168.0.248';
-  var PORT = 4223;
+  this.host = config["host"] || "localhost";
+  this.port = config["port"] || 4223;
 
   // Create connection and connect to brickd
   this.ipcon = new Tinkerforge.IPConnection();
-  this.ipcon.connect(HOST, PORT);
+  this.ipcon.connect(this.host, this.port);
+  this.remoteSwitch = new Tinkerforge.BrickletRemoteSwitch(this.uid, this.ipcon);
 
-  log.info("Created Tinkerforge-Accessory " + this.name);
+  log.info("Initialized BrickletRemoteSwitch Accessory " + this.name);
 }
 
-TinkerforgeAccessory.prototype = {
+BrickletRemoteSwitch.prototype = {
     getServices: function() {
 
         var informationService = new Service.AccessoryInformation();
         informationService
             .setCharacteristic(Characteristic.Manufacturer, "Tinkerforge")
-            .setCharacteristic(Characteristic.Model, this.bricklet_type)
+            .setCharacteristic(Characteristic.Model, "BrickletRemoteSwitch");
 
         var lightbulbService = new Service.Lightbulb();
         lightbulbService
             .getCharacteristic(Characteristic.On)
             .on('set', function(value, callback) {
-              this.log("Light -> " + value);
-              var remoteSwitch = new Tinkerforge.BrickletRemoteSwitch("nXN", this.ipcon);
-              remoteSwitch.switchSocketB(this.address, this.unit, value);
+              this.log(this.name + " -> " + value);
+              this.remoteSwitch.switchSocketB(this.address, this.unit, value);
               callback()
             }.bind(this));
         lightbulbService
