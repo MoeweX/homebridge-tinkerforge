@@ -1,9 +1,9 @@
 {
      "bridge": {
         "name": "HomeBridge",
-        "username": "CC:22:3D:E3:CE:30",
+        "username": "CC:22:3D:E3:CE:40",
         "port": 51826,
-        "pin": "031-45-157"
+        "pin": "031-45-154"
     },
 
     "description": "HomeBridge Tinkerforge Plugin",
@@ -11,10 +11,10 @@
     "accessories": [ {
 	        "accessory": "BrickletRemoteSwitch",
             "uid": "nXN",
-            "name": "Schreibtischlampe",
+            "name": "Desklap",
             "address": 30,
             "unit": 3,
-            "host": "192.168.0.248",
+            "host": "192.168.0.170",
             "port": 4223
        }
     ]

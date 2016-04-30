@@ -4,8 +4,16 @@ var Tinkerforge = require("tinkerforge");
 module.exports = function(homebridge){
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
-    homebridge.registerAccessory("homebridge-tinkerforge", "BrickletRemoteSwitch", BrickletRemoteSwitch);
+    // Registration of each accessory
+    homebridge.registerAccessory(
+        "homebridge-tinkerforge",
+        "BrickletRemoteSwitch",
+        BrickletRemoteSwitch);
 }
+
+//****************************************************************************************
+// Bricklet Remote Switch
+//****************************************************************************************
 
 function BrickletRemoteSwitch(log, config) {
   this.log = log;
