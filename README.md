@@ -1,6 +1,6 @@
 # homebridge-tinkerforge
 
-Supports Tinkerforge devices on the HomeBridge Platform.
+Plugin to support [Tinkerforge](http://www.tinkerforge.com/en) devices on the [HomeBridge Platform](https://github.com/nfarina/homebridge).
 
 # Installation
 
