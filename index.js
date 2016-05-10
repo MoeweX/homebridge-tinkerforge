@@ -1,8 +1,6 @@
 var Service, Characteristic;
 var Tinkerforge = require("tinkerforge");
 
-var ipcon = null;
-
 module.exports = function(homebridge){
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
@@ -71,13 +69,12 @@ BrickletRemoteSwitch.prototype = {
     },
 
     switchSocketB: function(value, that, callback) {
-        //TODO check first whether the bricklet is available
         that.remoteSwitch.getSwitchingState(function(v1, v2, state) {
             switch (state) {
                 case 0:
                     //connected and ready
                     that.log("Switching socket to " + value);
-                    that.remoteSwitch.switchSocketB(that.address, that.unit, value);
+                    //that.remoteSwitch.switchSocketB(that.address, that.unit, value);
                     callback();
                     break;
                 case 1:
@@ -86,9 +83,12 @@ BrickletRemoteSwitch.prototype = {
                     break;
                 default:
                     //Something unexpected happened.
-                    that.log("Am unexpected error occured, bricklet state = " + state);
+                    that.log("An unexpected error occured, bricklet state = " + state);
                     callback(state);
             }
-        }.bind(value, that, callback));
+        }.bind(value, that, callback), function() {
+            that.log("Bricklet " + that.uid + " not connected at host " + that.host + ".");
+            callback(1);
+        }.bind(that));
     }
 }
