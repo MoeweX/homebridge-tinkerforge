@@ -10,10 +10,10 @@ Plugin to support [Tinkerforge](http://www.tinkerforge.com/en) devices on the [H
 
 # Currently Supported Bricklets
 
-Below, find a list of currently supported bricklets and the options available to configure them. If some parameters seem unclear, please check the Tinkerforge API. If a parameter is optional, a standard value is given in square brackets
+Below, find a list of currently supported bricklets and the options available to configure them. If some parameters seem unclear, please check the Tinkerforge API. If a parameter is optional, a standard value is given in square brackets.
 
 ## BrickletRemoteSwitch
-Currently, only Sockets of type B are supported.
+Fully supported.
 
 * String `accessory`: needs to be "BrickletRemoteSwitch"
 * String `uid`: the uid of the BrickletRemoteSwitch
