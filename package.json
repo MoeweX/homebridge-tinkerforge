@@ -1,6 +1,6 @@
 {
   "name": "homebridge-tinkerforge",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Tinkerforge plugin for homebridge: https://github.com/nfarina/homebridge",
   "license": "MIT",
   "keywords": [
