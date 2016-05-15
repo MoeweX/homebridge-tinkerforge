@@ -83,8 +83,8 @@ BrickletRemoteSwitch.prototype = {
             switchService
                 .getCharacteristic(Characteristic.On)
                 .on('set', function(value, callback) {
-                  var that = this;
-                  this.performRemoteSwitchOperation(value, that, callback);
+                    var that = this;
+                    this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
             switchService
@@ -143,8 +143,7 @@ BrickletRemoteSwitch.prototype = {
                     break;
                 case 1:
                     // remote switch connected but busy
-                    setTimeout(that.performRemoteSwitchOperation(value, that, callback),
-                        10000);
+                    setTimeout(that.performRemoteSwitchOperation(value, that, callback), 10000);
                     break;
                 default:
                     // something unexpected happened.
