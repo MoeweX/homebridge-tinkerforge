@@ -10,12 +10,43 @@
 
     "accessories": [ {
 	        "accessory": "BrickletRemoteSwitch",
-            "uid": "nXN",
-            "name": "Desklap",
-            "address": 30,
+            "uid": "abc",
+            "name": "SwitchA Socket",
+            "address": 10,
+            "unit": 1,
+            "host": "localhost",
+            "port": 4223,
+            "type": "switchA"
+        },
+        {
+	        "accessory": "BrickletRemoteSwitch",
+            "uid": "abc",
+            "name": "Desk lamp",
+            "address": 15,
             "unit": 3,
-            "host": "192.168.0.170",
-            "port": 4223
-       }
+            "host": "localhost",
+            "port": 4223,
+            "type": "switchB"
+        },
+        {
+            "accessory": "BrickletRemoteSwitch",
+            "uid": "abc",
+            "name": "Dimmable night lamp",
+            "address": 51,
+            "unit": 2,
+            "host": "localhost",
+            "port": 4223,
+            "type": "dimB"
+        },
+        {
+            "accessory": "BrickletRemoteSwitch",
+            "uid": "abc",
+            "name": "Special Switch",
+            "address": "F",
+            "unit": 3,
+            "host": "localhost",
+            "port": 4223,
+            "type": "switchC"
+        }
     ]
 }
