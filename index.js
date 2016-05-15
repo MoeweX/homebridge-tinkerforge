@@ -143,7 +143,9 @@ BrickletRemoteSwitch.prototype = {
                     break;
                 case 1:
                     // remote switch connected but busy
-                    setTimeout(that.performRemoteSwitchOperation(value, that, callback), 10000);
+                    setTimeout(function() {
+                        that.performRemoteSwitchOperation(value, that, callback);
+                    }.bind(value, that, callback), 500);
                     break;
                 default:
                     // something unexpected happened.
