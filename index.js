@@ -70,7 +70,7 @@ BrickletRemoteSwitch.prototype = {
                 .getCharacteristic(Characteristic.Brightness)
                 .on('set', function(value, callback) {
                     var that = this;
-                    this.performRemoteSwitchOperation(value, that, callback, true);
+                    this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
             dimService
@@ -99,6 +99,22 @@ BrickletRemoteSwitch.prototype = {
         type of the socket. Possible types are switchA, dimB, switchB, switchC.
     */
     performRemoteSwitchOperation(value, that, callback) {
+        var rerunMethod = function() {
+            that.log("Bricklet is busy");
+            setTimeout(function() {
+                that.performRemoteSwitchOperation(value, that, callback);
+            }.bind(value, that, callback), 500);
+        }
+
+        var switchingSuccessfull = function() {
+            if (value > 1) {
+                that.log("Dimming socket to " + value + "%");
+            } else {
+                that.log("Switching socket to " + value);
+            }
+            callback();
+        }
+
         that.remoteSwitch.getSwitchingState(function(v1, v2, state) {
             switch (state) {
                 case 0:
@@ -117,10 +133,12 @@ BrickletRemoteSwitch.prototype = {
                                 callback();
                                 break;
                             case "switchB":
-                                that.log("Switching socket to " + value);
-                                that.remoteSwitch.switchSocketB(that.address,
-                                    that.unit, value);
-                                callback();
+                                that.remoteSwitch.switchSocketB(
+                                    that.address,
+                                    that.unit,
+                                    value,
+                                    switchingSuccessfull);
+                                    rerunMethod;
                                 break;
                             case "dimB":
                                 that.log("Switching socket to " + value);
@@ -137,15 +155,12 @@ BrickletRemoteSwitch.prototype = {
                             default:
                                 that.log("Unsupported type " + that.type);
                                 callback(1);
-
                         }
                     }
                     break;
                 case 1:
                     // remote switch connected but busy
-                    setTimeout(function() {
-                        that.performRemoteSwitchOperation(value, that, callback);
-                    }.bind(value, that, callback), 500);
+                    rerunMethod();
                     break;
                 default:
                     // something unexpected happened.
