@@ -137,8 +137,8 @@ BrickletRemoteSwitch.prototype = {
                                     that.address,
                                     that.unit,
                                     value,
-                                    switchingSuccessfull);
-                                    rerunMethod;
+                                    switchingSuccessfull,
+                                    rerunMethod);
                                 break;
                             case "dimB":
                                 that.log("Switching socket to " + value);
