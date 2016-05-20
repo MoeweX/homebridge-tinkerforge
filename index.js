@@ -44,6 +44,8 @@ function BrickletRemoteSwitch(log, config) {
   // get IPConnection and connect to brickd
   this.ipcon = getIPConnection(this.host, this.port)
   this.remoteSwitch = new Tinkerforge.BrickletRemoteSwitch(this.uid, this.ipcon);
+  this.remoteSwitch.setResponseExpected(
+      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_B, true);
 
   log.info("Initialized BrickletRemoteSwitch Accessory " + this.name);
 }
@@ -100,10 +102,9 @@ BrickletRemoteSwitch.prototype = {
     */
     performRemoteSwitchOperation(value, that, callback) {
         var rerunMethod = function() {
-            that.log("Bricklet is busy");
             setTimeout(function() {
                 that.performRemoteSwitchOperation(value, that, callback);
-            }.bind(value, that, callback), 500);
+            }, 100);
         }
 
         var switchingSuccessfull = function() {
@@ -115,61 +116,73 @@ BrickletRemoteSwitch.prototype = {
             callback();
         }
 
-        that.remoteSwitch.getSwitchingState(function(v1, v2, state) {
-            switch (state) {
-                case 0:
-                    // remote switch connected and ready
-                    if (value > 1) {
-                        var dimValue = Math.round(value/6.67); // dimSocket takes 0 to 15
-                        that.log("Dimming socket to " + dimValue + "/15");
-                        that.remoteSwitch.dimSocketB(that.address, that.unit, dimValue);
-                        callback();
-                    } else {
-                        switch (that.type) {
-                            case "switchA":
-                                that.log("Switching socket to " + value);
-                                that.remoteSwitch.switchSocketA(that.address,
-                                    that.unit, value);
-                                callback();
-                                break;
-                            case "switchB":
-                                that.remoteSwitch.switchSocketB(
-                                    that.address,
-                                    that.unit,
-                                    value,
-                                    switchingSuccessfull,
-                                    rerunMethod);
-                                break;
-                            case "dimB":
-                                that.log("Switching socket to " + value);
-                                that.remoteSwitch.switchSocketB(that.address,
-                                    that.unit, value);
-                                callback();
-                                break;
-                            case "switchC":
-                                that.log("Switching socket to " + value);
-                                that.remoteSwitch.switchSocketC(""+that.address,
-                                that.unit, value);
-                                callback();
-                                break;
-                            default:
-                                that.log("Unsupported type " + that.type);
-                                callback(1);
+        that.remoteSwitch.getSwitchingState(
+            function(state) {
+                switch (state) {
+                    case 0:
+                        // remote switch connected and ready
+                        if (value > 1) {
+                            var dimValue = Math.round(value/6.67); // dimSocket takes 0 to 15
+                            that.remoteSwitch.dimSocketB(
+                                that.address,
+                                that.unit,
+                                dimValue,
+                                switchingSuccessfull,
+                                rerunMethod);
+                        } else {
+                            switch (that.type) {
+                                case "switchA":
+                                    that.remoteSwitch.switchSocketA(
+                                        that.address,
+                                        that.unit,
+                                        value,
+                                        switchingSuccessfull,
+                                        rerunMethod);
+                                    break;
+                                case "switchB":
+                                    that.remoteSwitch.switchSocketB(
+                                        that.address,
+                                        that.unit,
+                                        value,
+                                        switchingSuccessfull,
+                                        rerunMethod);
+                                    break;
+                                case "dimB":
+                                    that.remoteSwitch.switchSocketB(
+                                        that.address,
+                                        that.unit,
+                                        value,
+                                        switchingSuccessfull,
+                                        rerunMethod);
+                                    break;
+                                case "switchC":
+                                    that.log("Switching socket to " + value);
+                                    that.remoteSwitch.switchSocketC(
+                                        ""+that.address,
+                                        that.unit,
+                                        value,
+                                        switchingSuccessfull,
+                                        rerunMethod);
+                                    break;
+                                default:
+                                    that.log("Unsupported type " + that.type);
+                                    callback(1);
+                            }
                         }
-                    }
-                    break;
-                case 1:
-                    // remote switch connected but busy
-                    rerunMethod();
-                    break;
-                default:
-                    // something unexpected happened.
-                    that.log("An unexpected error occured, bricklet state = " + state);
-                    callback(state);
-            }
-        }.bind(value, that, callback), function() {
-            that.log("Bricklet " + that.uid + " not connected at host " + that.host);
-            callback(1);
-        }.bind(that));
+                        break;
+                    case 1:
+                        // remote switch connected but busy
+                        rerunMethod();
+                        break;
+                    default:
+                        // something unexpected happened.
+                        that.log("An unexpected error occured, bricklet state = " + state);
+                        callback(state);
+                }
+            },
+            function() {
+                that.log("Bricklet " + that.uid + " not connected at host " + that.host);
+                callback(1);
+            });
     }
 }
