@@ -64,13 +64,6 @@ BrickletRemoteSwitch.prototype = {
             .setCharacteristic(Characteristic.Manufacturer, "Tinkerforge")
             .setCharacteristic(Characteristic.Model, "BrickletRemoteSwitch");
 
-        // necessary hack, because operations cannot be submitted simultaniously
-        var delayedOperation = function(value, that, callback) {
-            setTimeout(function() {
-                that.performRemoteSwitchOperation(value, that, callback);
-            }, Math.floor((Math.random() * 300) + 1));
-        }
-
         if (this.type == "dimB") {
             var dimService = new Service.Lightbulb();
             // implement on/off
@@ -78,14 +71,14 @@ BrickletRemoteSwitch.prototype = {
                 .getCharacteristic(Characteristic.On)
                 .on('set', function(value, callback) {
                     var that = this;
-                    delayedOperation(value, that, callback);
+                    this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // implement dimming
             dimService
                 .getCharacteristic(Characteristic.Brightness)
                 .on('set', function(value, callback) {
                     var that = this;
-                    delayedOperation(value, that, callback);
+                    this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
             dimService
@@ -99,7 +92,7 @@ BrickletRemoteSwitch.prototype = {
                 .getCharacteristic(Characteristic.On)
                 .on('set', function(value, callback) {
                     var that = this;
-                    delayedOperation(value, that, callback);
+                    this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
             switchService
