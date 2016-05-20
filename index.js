@@ -45,7 +45,13 @@ function BrickletRemoteSwitch(log, config) {
   this.ipcon = getIPConnection(this.host, this.port)
   this.remoteSwitch = new Tinkerforge.BrickletRemoteSwitch(this.uid, this.ipcon);
   this.remoteSwitch.setResponseExpected(
+      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_A, true);
+  this.remoteSwitch.setResponseExpected(
       Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_B, true);
+  this.remoteSwitch.setResponseExpected(
+      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_C, true);
+  this.remoteSwitch.setResponseExpected(
+      Tinkerforge.BrickletRemoteSwitch.FUNCTION_DIM_SOCKET_B, true);
 
   log.info("Initialized BrickletRemoteSwitch Accessory " + this.name);
 }
