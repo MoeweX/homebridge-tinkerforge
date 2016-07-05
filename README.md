@@ -26,7 +26,7 @@ Fully supported.
 
 # How to contribute
 
-Add more bricklet types and improve existent ones. Also solve issues. Maximum line length = 90 characters.
+Add more bricklet types and improve existing ones. Also solve issues. No maximum line length.
 
 # Notes for implementation
 

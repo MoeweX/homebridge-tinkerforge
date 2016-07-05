@@ -5,15 +5,12 @@ module.exports = function(homebridge){
     Service = homebridge.hap.Service;
     Characteristic = homebridge.hap.Characteristic;
     // registration of each accessory
-    homebridge.registerAccessory(
-        "homebridge-tinkerforge",
-        "BrickletRemoteSwitch",
-        BrickletRemoteSwitch);
+    homebridge.registerAccessory("homebridge-tinkerforge","BrickletRemoteSwitch",BrickletRemoteSwitch);
 }
 
-//****************************************************************************************
+//**************************************************************************************************
 // General Functions
-//****************************************************************************************
+//**************************************************************************************************
 
 function logValue(value) {
     console.log(value);
@@ -25,9 +22,9 @@ function getIPConnection(host, port) {
     return ipcon;
 }
 
-//****************************************************************************************
+//**************************************************************************************************
 // Bricklet Remote Switch
-//****************************************************************************************
+//**************************************************************************************************
 
 function BrickletRemoteSwitch(log, config) {
   this.log = log;
@@ -44,14 +41,10 @@ function BrickletRemoteSwitch(log, config) {
   // get IPConnection and connect to brickd
   this.ipcon = getIPConnection(this.host, this.port)
   this.remoteSwitch = new Tinkerforge.BrickletRemoteSwitch(this.uid, this.ipcon);
-  this.remoteSwitch.setResponseExpected(
-      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_A, true);
-  this.remoteSwitch.setResponseExpected(
-      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_B, true);
-  this.remoteSwitch.setResponseExpected(
-      Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_C, true);
-  this.remoteSwitch.setResponseExpected(
-      Tinkerforge.BrickletRemoteSwitch.FUNCTION_DIM_SOCKET_B, true);
+  this.remoteSwitch.setResponseExpected(Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_A, true);
+  this.remoteSwitch.setResponseExpected(Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_B, true);
+  this.remoteSwitch.setResponseExpected(Tinkerforge.BrickletRemoteSwitch.FUNCTION_SWITCH_SOCKET_C, true);
+  this.remoteSwitch.setResponseExpected(Tinkerforge.BrickletRemoteSwitch.FUNCTION_DIM_SOCKET_B, true);
 
   log.info("Initialized BrickletRemoteSwitch Accessory " + this.name);
 }
@@ -81,8 +74,7 @@ BrickletRemoteSwitch.prototype = {
                     this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
-            dimService
-                .setCharacteristic(Characteristic.Name, this.name);
+            dimService.setCharacteristic(Characteristic.Name, this.name);
 
             return [informationService, dimService];
         } else {
@@ -95,8 +87,7 @@ BrickletRemoteSwitch.prototype = {
                     this.performRemoteSwitchOperation(value, that, callback);
                 }.bind(this));
             // set name
-            switchService
-                .setCharacteristic(Characteristic.Name, this.name);
+            switchService.setCharacteristic(Characteristic.Name, this.name);
 
             return [informationService, switchService];
         }
@@ -129,46 +120,21 @@ BrickletRemoteSwitch.prototype = {
                         // remote switch connected and ready
                         if (value > 1) {
                             var dimValue = Math.round(value/6.67); // dimSocket takes 0 to 15
-                            that.remoteSwitch.dimSocketB(
-                                that.address,
-                                that.unit,
-                                dimValue,
-                                switchingSuccessfull,
-                                rerunMethod);
+                            that.remoteSwitch.dimSocketB(that.address,that.unit,dimValue,switchingSuccessfull,rerunMethod);
                         } else {
                             switch (that.type) {
                                 case "switchA":
-                                    that.remoteSwitch.switchSocketA(
-                                        that.address,
-                                        that.unit,
-                                        value,
-                                        switchingSuccessfull,
-                                        rerunMethod);
+                                    that.remoteSwitch.switchSocketA(that.address,that.unit,value,switchingSuccessfull,rerunMethod);
                                     break;
                                 case "switchB":
-                                    that.remoteSwitch.switchSocketB(
-                                        that.address,
-                                        that.unit,
-                                        value,
-                                        switchingSuccessfull,
-                                        rerunMethod);
+                                    that.remoteSwitch.switchSocketB(that.address,that.unit,value,switchingSuccessfull,rerunMethod);
                                     break;
                                 case "dimB":
-                                    that.remoteSwitch.switchSocketB(
-                                        that.address,
-                                        that.unit,
-                                        value,
-                                        switchingSuccessfull,
-                                        rerunMethod);
+                                    that.remoteSwitch.switchSocketB(that.address,that.unit,value,switchingSuccessfull,rerunMethod);
                                     break;
                                 case "switchC":
                                     that.log("Switching socket to " + value);
-                                    that.remoteSwitch.switchSocketC(
-                                        ""+that.address,
-                                        that.unit,
-                                        value,
-                                        switchingSuccessfull,
-                                        rerunMethod);
+                                    that.remoteSwitch.switchSocketC(""+that.address,that.unit,value,switchingSuccessfull,rerunMethod);
                                     break;
                                 default:
                                     that.log("Unsupported type " + that.type);
