@@ -12,10 +12,6 @@ module.exports = function(homebridge){
 // General Functions
 //**************************************************************************************************
 
-function logValue(value) {
-    console.log(value);
-}
-
 function getIPConnection(host, port) {
     var ipcon = new Tinkerforge.IPConnection();
     ipcon.connect(host, port);
