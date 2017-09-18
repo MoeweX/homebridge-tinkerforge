@@ -42,3 +42,15 @@ When adding characteristics:
 ## Start in Developer Mode
 
 To start the plugin in developer mode run `homebridge -D -P . -U ~/.homebridge-dev/` while beeing in the root directory. A sample config has to be saved at `~/.homebridge-dev/`.
+
+## Raspberry Pi
+
+To update raspberry run
+* sudo apt-get update
+* sudo apt-get dist-upgrade
+
+To update homebridge run
+* `npm install npm@latest -g` -> update npm
+* `npm update -g` -> update all global packages
+
+If the required configuration is stored at `~/.homebridge/config.json`, the program can just be started by running `homebridge`. It is recommended to do that in a screen environment (run `screen -S homebridge`).
