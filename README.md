@@ -54,3 +54,5 @@ To update homebridge run
 * `npm update -g` -> update all global packages
 
 If the required configuration is stored at `~/.homebridge/config.json`, the program can just be started by running `homebridge`. It is recommended to do that in a screen environment (run `screen -S homebridge`).
+
+To run homebridge on startup, run `sudo nano /etc/rc.local` and add `su -c "screen -dmS homebridge homebridge" -s /bin/sh pi`. Also see [here](https://github.com/nfarina/homebridge/wiki/Running-HomeBridge-on-a-Raspberry-Pi)
