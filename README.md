@@ -46,8 +46,8 @@ To start the plugin in developer mode run `homebridge -D -P . -U ~/.homebridge-d
 ## Raspberry Pi
 
 To update raspberry run
-* sudo apt-get update
-* sudo apt-get dist-upgrade
+* `sudo apt-get update`
+* `sudo apt-get dist-upgrade`
 
 To update homebridge run
 * `npm install npm@latest -g` -> update npm
